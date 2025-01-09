@@ -37,8 +37,8 @@ describe("User Service", () => {
     
     describe("Sign Up", () => {
 
-        test("should throw if the field not have 11 letters", async () => {
-            await expect(
+        test("should throw if the field not have 11 letters", () => {
+            expect(
                 UserService.createUser({ 
                     userDocument: "1234567891", 
                     creditCardToken: "25iaaR8hjGl",
@@ -47,8 +47,8 @@ describe("User Service", () => {
             ).rejects.toThrow(ValidationException)
         })
 
-        test("should call repository createUser with hashed data", async () => {
-            await UserService.createUser({
+        test("should call repository createUser with hashed data", () => {
+            UserService.createUser({
                 userDocument: "12345678910",
                 creditCardToken: "validtoken1",
                 value: Long.fromNumber(1000)
@@ -65,8 +65,8 @@ describe("User Service", () => {
 
     describe("Login", () => {
         
-        test("should throw if user not found", async () => {
-            await expect(UserService.login({ userDocument: "12345678911" })
+        test("should throw if user not found", () => {
+            expect(UserService.login({ userDocument: "12345678911" })
             ).rejects.toThrow(NotFoundException)
         })
         
@@ -76,4 +76,12 @@ describe("User Service", () => {
         })
     })
 
+    describe("Exclude", () => {
+
+        test("should throw if id is equal to empty", () => {
+            const id = " "
+            expect(UserService.deleteUser(id)).rejects.toThrow(ValidationException)
+        })
+
+    })
 })
