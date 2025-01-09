@@ -83,5 +83,9 @@ describe("User Service", () => {
             expect(UserService.deleteUser(id)).rejects.toThrow(ValidationException)
         })
 
+        test("should throw if user not found", () => {
+            const id = "5"
+            expect(UserService.deleteUser(id)).rejects.toThrow(NotFoundException)
+        })
     })
 })
