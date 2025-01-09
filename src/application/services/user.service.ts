@@ -52,11 +52,12 @@ export class UserService {
             throw new ValidationException('Invalid ID provided')
         }
 
-        const user = await this.userRepository.deleteUser(id)
+        const user = await this.exist(parseInt(id))
         if (!user) {
             throw new NotFoundException('User not found')
         }
-
+        
+        this.userRepository.deleteUser(user)
         return 
     }
 
@@ -68,7 +69,7 @@ export class UserService {
         this.isValidField(data.userDocument)
         this.isValidField(data.creditCardToken)        
 
-        const user = await this.userRepository.exist(parseInt(id))
+        const user = await this.exist(parseInt(id))
 
         if (!user) {
             throw new NotFoundException('User not found')
